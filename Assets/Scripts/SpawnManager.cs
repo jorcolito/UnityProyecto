@@ -8,6 +8,8 @@ public class SpawnManager : MonoBehaviour
 
     public float minTime = 1f;
     public float maxTime = 2f;
+    public float minY = -1f;
+    public float maxY = 1f;
 
     void Start()
     {
@@ -16,9 +18,11 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnCoRoutine(float waitTime){
         yield return new WaitForSeconds(waitTime);
+
+        Vector3 randomPos = new Vector3(transform.position.x, Random.Range(minY, maxY), transform.position.z);
         
         Instantiate(itemPrefab[Random.Range(0,itemPrefab.Length)],
-        transform.position,Quaternion.identity);
+        randomPos,Quaternion.identity);
         
         StartCoroutine(SpawnCoRoutine(Random.Range(minTime, maxTime)));
     }
