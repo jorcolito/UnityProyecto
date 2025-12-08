@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer mySprinteRenderer;
     
     public GameObject bulletPrefab; 
+    public GameManager myGameManager;
 
     void Start()
     {
@@ -60,5 +61,28 @@ public class PlayerController : MonoBehaviour
         }
         
         StartCoroutine(WalkCoRutine());
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Coin"))
+        {
+            Destroy(collision.gameObject);
+            myGameManager.AddScore();
+        }
+        else if (collision.CompareTag("Enemy"))
+        {
+            Destroy(collision.gameObject);
+            PlayerDeath();
+        }
+        else if (collision.CompareTag("DeathZone"))
+        {
+            PlayerDeath();
+        }
+    }
+
+    void PlayerDeath()
+    {
+        SceneManager.LoadScene("SampleScene");
     }
 }
